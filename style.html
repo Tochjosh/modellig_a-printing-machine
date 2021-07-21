@@ -1,109 +1,92 @@
-<!DOCTYPE html >
+<!DOCTYPE html>
 <html lang="en">
 <head>
  <meta charset="UTF-8">
- <meta http-equiv="X-UA-compatible" content = "IE=edge">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <title>Grid</title>
- <style>
- :root {
- --main-radius: 8px;
- --main-padding: 5px;
- }
-
- .container {
- background: pink;
- display: grid;
- height: 100vh;
- grid-template-columns: 1.2fr 5fr 1.2fr;
- grid-template-rows: 0.5fr 0.5fr 5fr 0.5fr;
- grid-template-areas: "header header header" "sidebar navigation ads" "sidebar main ads" "footer footer footer";
- grid-gap: 1.25rem;
- font-family: "Inter", gothic;
- font-weight: 800;
-
- }
-
- header {
- background: aquamarine;
- grid-area: header;
- border-radius: var(--main-radius);
- padding-top: var(--main-padding);
- border-style: solid;
- border-color: red;
- }
-
- #main {
- background: aquamarine;
- grid-area: main;
- border-radius: var(--main-radius);
- padding-top: var(--main-padding);
- border-style: solid;
- border-color: red;
- }
-
- #navigation {
- background: aquamarine;
- grid-area: navigation;
- border-radius: var(--main-radius);
- padding-top: var(--main-padding);
- border-style: solid;
- border-color: red;
- }
-
- sidebar {
- background: aquamarine;
- grid-area: sidebar;
- border-radius: var(--main-radius);
- padding-top: var(--main-padding);
- border-style: solid;
- border-color: red;
- }
-
- ads {
- background: aquamarine;
- grid-area: ads;
- border-radius: var(--main-radius);
- padding-top: var(--main-padding);
- border-style: solid;
- border-color: red;
- }
-
- #footer {
- background: aquamarine;
- grid-area: footer;
- border-radius: var(--main-radius);
- padding-top: var(--main-padding);
- border-style: solid;
- border-color: red;
- }
- @media only screen and (max-width:768px){
- .container{
- grid-template-columns: 1.5fr 5fr;
- grid-template-rows: 0.5fr 0.5fr 7fr 0.5fr;
- grid-template-areas: "header header" "navigation navigation" "sidebar main" "ads footer";
- }
- }
-
- @media only screen and (max-width:400px){
- .container{
- grid-template-columns: 4fr;
- grid-template-rows: 0.5fr 0.5fr 3fr 0.5fr 0.5fr 0.5fr;
- grid-template-areas: "header" "navigation" "main" "sidebar" "ads" "footer";
- }
- }
-
- </style>
 </head>
-<body>
- <div class="container">
- <header>header</header>
- <div id="main">main</div>
- <div id="sidebar">sidebar</div>
- <div id="ads">ads</div>
- <div id="navigation">navigation</div>
- <div id="footer">footer</div>
+<style>
+ *{
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+}
 
- </div>
+header { grid-area: header; }
+nav { grid-area: nav; }
+main { grid-area: main; }
+aside#left { grid-area: left; }
+aside#right { grid-area: right; }
+footer { grid-area: footer; }
+
+header,
+nav,
+main,
+aside#left,
+aside#right,
+footer{
+ border: 1px solid red;
+ margin: 5px;
+ background-color: white;
+ padding: 5px 15px
+}
+
+header,
+nav,
+aside#left,
+aside#right,
+footer{
+ height: 30px;
+}
+
+main{
+ height: 300px;
+}
+
+body{
+background-color: pink;
+ height: 100vh;
+ margin: 5px 10px;
+ display: grid;
+ grid-gap: 10px;
+ grid-template-columns: 1fr;
+ grid-template-rows: 30px 30px 300px 30px 30px 30px;
+ grid-template-areas: "header" "nav" "main" "left" "right" "footer";
+}
+
+@media screen and (min-width: 768px) {
+ aside#left,
+ main{
+ height: 500px;
+ }
+
+ body{
+ grid-template-columns: 0.3fr 1fr;
+ grid-template-rows: 30px 30px 500px 30px;
+ grid-template-areas: "header header" "nav nav" "left main" "right footer";
+ }
+}
+
+@media screen and (min-width: 1024px) {
+ aside#left,
+ aside#right{
+ height: 540px;
+ }
+
+ body{
+ grid-template-columns: 0.3fr 1fr 0.3fr;
+ grid-template-rows: 30px 30px 500px 30px;
+ grid-template-areas: "header header header" "left nav right" "left main right" "footer footer footer";
+ }
+}
+</style>
+<body>
+ <header id="header">header</header>
+ <nav id="nav">navigator</nav>
+ <main id="main">main</main>
+ <aside id="left">sidebar</aside>
+ <aside id="right">ads</aside>
+ <footer id="footer">footer</footer>
 </body>
 </html>
