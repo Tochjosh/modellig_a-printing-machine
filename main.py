@@ -30,7 +30,6 @@ class Printer:
         self.price_colored = data.FORMAT['coloured']['price']
         self.ink_greyscale = data.FORMAT['greyscale']['materials']['ink']
         self.price_greyscale = data.FORMAT['greyscale']['price']
-        self.prompt_user()
 
     def end_or_continue(self):  # This function ensure we are able to navigate through the prompt
         while True:
@@ -61,13 +60,11 @@ Hello there, what would you like to do?
                     # all the functions are chained together here to ensure dynamism of the program
                     if self.user.lower() == "c":
                         self.check_colored_resources()
-                        self.resources_update()
                         self.bill_processing()
                         self.end_or_continue()
                     elif self.user.lower() == "g":
                         self.check_greyscale_resources()
                         self.bill_processing()
-                        self.resources_update()
                         self.end_or_continue()
                     elif self.user.lower() == 'r':
                         self.view_resources()
@@ -83,8 +80,14 @@ Hello there, what would you like to do?
     def check_colored_resources(self):
 
         # this function checks if the available resources will cater for colored printing
-        print()
-        self.number_of_papers = int(input("How many papers would you like to print? "))
+        while True:
+            try:
+                self.number_of_papers = int(input("How many papers would you like to print? "))
+                if int(self.number_of_papers):
+                    break
+            except ValueError:
+                print("Enter number of papers in digits")
+
         self.ink_required = self.ink_colored * self.number_of_papers
         self.cost = self.number_of_papers * self.price_colored
         if self.number_of_papers <= self.resources_paper and self.ink_required <= self.resources_ink:
@@ -102,13 +105,19 @@ Hello there, what would you like to do?
     def check_greyscale_resources(self):
 
         # this function checks if the available resources will cater for greyscale printing
-        self.number_of_papers = int(input("How many papers would you like to print? "))
+        while True:
+            try:
+                self.number_of_papers = int(input("How many papers would you like to print? "))
+                if int(self.number_of_papers):
+                    break
+            except ValueError:
+                print("Enter number of papers in digits")
 
         self.ink_required = self.ink_greyscale * self.number_of_papers
         self.cost = self.number_of_papers * self.price_greyscale
         if self.number_of_papers <= self.resources_paper and self.ink_required <= self.resources_ink:
             print()
-            print(f"Your bill is {self.cost} naira only")
+            print(f"Your bill is #{self.cost} naira only")
         elif self.number_of_papers > self.resources_paper:
             print()
             print("There is not enough papers available")
@@ -123,33 +132,53 @@ Hello there, what would you like to do?
         while True:
             try:
                 self.n_biyar = int(input(">> how many biyar are you paying with? "))
+                if int(self.n_biyar):
+                    break
+            except ValueError:
+                print("Enter numbers in digits only")
+
+        while True:
+            try:
                 self.n_faiba = int(input(">> how many faiba are you paying with? "))
+                if int(self.n_faiba):
+                    break
+            except ValueError:
+                print("Enter numbers in digits only")
+
+        while True:
+            try:
                 self.n_muri = int(input(">> how many muri are you paying with? "))
+                if int(self.n_muri):
+                    break
+            except ValueError:
+                print("Enter numbers in digits only")
+
+        while True:
+            try:
                 self.n_wazobia = int(input(">> how many wazobia are you paying with? "))
-                if self.n_biyar is not int and self.n_faiba is not int and self.n_muri is not int and self.n_wazobia is not int:
-                    raise Exception
-            except Exception:
-                print("Enter amount in numbers only")
+                if int(self.n_wazobia):
+                    break
+            except ValueError:
+                print("Enter numbers in digits only")
 
-            self.total_payment = (
-                        (self.n_biyar * self.biyar) + (self.faiba * self.n_faiba) + (self.muri * self.n_muri) + (
-                        self.wazobia * self.n_wazobia))
+        self.total_payment = ((self.n_biyar * self.biyar) + (self.faiba * self.n_faiba) + (self.muri * self.n_muri) + (
+                self.wazobia * self.n_wazobia))
 
-            if self.total_payment == self.cost:
-                self.transaction_success = True
-                print("Printing.....")
-                print("Here is your Project. and Thank you for using our services")
-                self.resources_update()
-                self.end_or_continue()
-            elif self.total_payment > self.cost:
-                self.transaction_success = True
-                print("Printing.....")
-                print(f"Here's your change of {self.total_payment - self.cost}, and Thank you for using our services")
-                self.resources_update()
-                self.end_or_continue()
-            else:
-                print("Sorry that’s not enough money. Money refunded")
-                self.end_or_continue()
+        if self.total_payment == self.cost:
+            self.transaction_success = True
+            print("Printing.....")
+            print("Here is your Project. and Thank you for using our services")
+            self.resources_update()
+            self.end_or_continue()
+        elif self.total_payment > self.cost:
+            self.transaction_success = True
+            print("Printing.....")
+            print(f"Here's your change of #{self.total_payment - self.cost}, and Thank you for using our services")
+            self.resources_update()
+            self.end_or_continue()
+        else:
+            print("Sorry that’s not enough money. Money refunded")
+            self.end_or_continue()
 
     def resources_update(self):
         # this function updates the resources after every transaction
@@ -163,8 +192,9 @@ Hello there, what would you like to do?
         print()
         print({"papers": self.resources_paper,
                "ink": self.resources_ink,
-               "profit": self.profit
+               "profit": f'#{self.profit}',
                })
 
 
-Printer()
+printer = Printer()
+printer.prompt_user()
